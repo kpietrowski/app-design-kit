@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# App Design Kit - Lead Generation Tool
 
-## Getting Started
+A beautiful, interactive design tool that generates custom app design kits for users. Captures qualified leads for your "Build Your First App" course.
 
-First, run the development server:
+## ✨ What It Does
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Multi-Step Quiz** - Users answer questions about their app idea, target audience, design preferences
+2. **AI-Powered Generation** - Creates a custom Claude Code prompt based on their answers
+3. **Visual Moodboard** - Fetches 9 curated images from Unsplash matching their style
+4. **Color Palette** - Generates a custom color scheme with hex codes
+5. **Email Delivery** - Sends the complete design kit to their email
+6. **Lead Capture** - Collects qualified leads in Supabase for your course
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Current Status
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+✅ **Complete!** All core features are built and running at http://localhost:3001
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Next Steps to Launch
 
-## Learn More
+### 1. Set Up Supabase Database
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Get API Keys (Unsplash, Resend)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Update .env.local
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Test & Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See full instructions in this README!
