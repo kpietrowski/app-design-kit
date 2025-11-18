@@ -3,11 +3,6 @@ import { createApi } from 'unsplash-js'
 import { supabaseAdmin } from '@/lib/supabase'
 import { generateClaudePrompt } from '@/lib/promptGenerator'
 
-// Initialize Unsplash client
-const unsplash = createApi({
-  accessKey: process.env.UNSPLASH_ACCESS_KEY!,
-})
-
 // Map feelings/styles to Unsplash search queries
 function getUnsplashSearchTerms(submission: any): string[] {
   const queries: string[] = []
@@ -96,30 +91,42 @@ export async function POST(request: NextRequest) {
     // Generate the custom Claude Code prompt
     const generatedPrompt = generateClaudePrompt(submission)
 
-    // Get Unsplash search terms
-    const searchTerms = getUnsplashSearchTerms(submission)
+    let moodboardImages: string[] = []
 
-    // Fetch images from Unsplash (3 images per query)
-    const imagePromises = searchTerms.map(async (query) => {
-      try {
-        const result = await unsplash.search.getPhotos({
-          query,
-          perPage: 3,
-          orientation: 'portrait',
-        })
+    // Only fetch images if Unsplash API key is configured
+    if (process.env.UNSPLASH_ACCESS_KEY) {
+      // Initialize Unsplash client
+      const unsplash = createApi({
+        accessKey: process.env.UNSPLASH_ACCESS_KEY,
+      })
 
-        if (result.response) {
-          return result.response.results.map(photo => photo.urls.regular)
+      // Get Unsplash search terms
+      const searchTerms = getUnsplashSearchTerms(submission)
+
+      // Fetch images from Unsplash (3 images per query)
+      const imagePromises = searchTerms.map(async (query) => {
+        try {
+          const result = await unsplash.search.getPhotos({
+            query,
+            perPage: 3,
+            orientation: 'portrait',
+          })
+
+          if (result.response) {
+            return result.response.results.map(photo => photo.urls.regular)
+          }
+          return []
+        } catch (error) {
+          console.error(`Unsplash error for query "${query}":`, error)
+          return []
         }
-        return []
-      } catch (error) {
-        console.error(`Unsplash error for query "${query}":`, error)
-        return []
-      }
-    })
+      })
 
-    const imageArrays = await Promise.all(imagePromises)
-    const moodboardImages = imageArrays.flat()
+      const imageArrays = await Promise.all(imagePromises)
+      moodboardImages = imageArrays.flat()
+    } else {
+      console.log('Unsplash API key not configured - skipping moodboard generation')
+    }
 
     // Update the submission with generated content
     const { error: updateError } = await supabaseAdmin

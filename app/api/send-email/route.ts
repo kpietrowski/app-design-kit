@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/supabase'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(request: NextRequest) {
   try {
     const { submissionId } = await request.json()
@@ -13,6 +11,15 @@ export async function POST(request: NextRequest) {
         { success: false, error: 'Missing submissionId' },
         { status: 400 }
       )
+    }
+
+    // Check if Resend API key is configured
+    if (!process.env.RESEND_API_KEY) {
+      console.log('Resend API key not configured - skipping email send')
+      return NextResponse.json({
+        success: true,
+        message: 'Email service not configured',
+      })
     }
 
     // Fetch the submission
@@ -39,6 +46,9 @@ export async function POST(request: NextRequest) {
 
     const appName = submission.app_name || 'Your App'
     const resultsUrl = `${request.nextUrl.origin}/results/${submissionId}`
+
+    // Initialize Resend client
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
