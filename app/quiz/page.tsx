@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -82,6 +82,11 @@ export default function QuizPage() {
   const appIdea = watch('appIdea')
   const colorPalette = watch('colorPalette')
   const designInspiration = watch('designInspiration')
+
+  // Scroll to top when question changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentQuestion])
 
   const toggleFeeling = (feeling: string) => {
     const current = feelings
@@ -198,7 +203,7 @@ export default function QuizPage() {
 
                   <textarea
                     {...register('appIdea')}
-                    className="w-full p-6 text-xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 resize-none h-48 bg-white/10 backdrop-blur-lg text-white placeholder-white/50"
+                    className="w-full p-6 text-xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 resize-none h-48 bg-white text-gray-900 placeholder-gray-400"
                     placeholder="Example: A habit tracker that uses AI to suggest personalized routines..."
                     maxLength={200}
                   />
@@ -232,7 +237,7 @@ export default function QuizPage() {
                   <input
                     type="text"
                     {...register('appName')}
-                    className="w-full p-6 text-2xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 bg-white/10 backdrop-blur-lg text-white placeholder-white/50"
+                    className="w-full p-6 text-2xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 bg-white text-gray-900 placeholder-gray-400"
                     placeholder="My Awesome App"
                   />
                 </motion.div>
@@ -274,7 +279,7 @@ export default function QuizPage() {
                     <input
                       type="text"
                       {...register('targetAudienceOther')}
-                      className="w-full p-6 text-xl rounded-2xl mt-4 bg-white/10 backdrop-blur-lg text-white placeholder-white/50 border-2 border-white/30"
+                      className="w-full p-6 text-xl rounded-2xl mt-4 bg-white text-gray-900 placeholder-gray-400 border-2 border-white/30"
                       placeholder="Describe your audience..."
                       autoFocus
                     />
@@ -590,7 +595,7 @@ export default function QuizPage() {
                   <input
                     type="text"
                     {...register('name')}
-                    className="w-full p-6 text-2xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 bg-white/10 backdrop-blur-lg text-white placeholder-white/50"
+                    className="w-full p-6 text-2xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 bg-white text-gray-900 placeholder-gray-400"
                     placeholder="Jane Smith"
                   />
                   {errors.name && (
@@ -618,7 +623,7 @@ export default function QuizPage() {
                   <input
                     type="email"
                     {...register('email')}
-                    className="w-full p-6 text-2xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 bg-white/10 backdrop-blur-lg text-white placeholder-white/50 mb-6"
+                    className="w-full p-6 text-2xl rounded-3xl border-4 border-white/30 focus:border-white focus:ring-0 bg-white text-gray-900 placeholder-gray-400 mb-6"
                     placeholder="jane@example.com"
                   />
                   {errors.email && (
